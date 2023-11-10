@@ -106,6 +106,14 @@ def get_max_completion_tokens(messages: list[dict], model: str, default: int) ->
     Returns:
         The maximum number of completion tokens.
     """
-    if model not in TOKEN_MAX:
-        return default
-    return TOKEN_MAX[model] - count_message_tokens(messages) - 1
+
+
+    try:
+        if model not in TOKEN_MAX:
+            return default
+    except TypeError:
+        print(f"messages: {messages}")
+        print(f"model: {model}")
+        print(f"default: {default}")
+        
+        return TOKEN_MAX[model] - count_message_tokens(messages) - 1
